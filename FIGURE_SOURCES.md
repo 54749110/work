@@ -1,36 +1,50 @@
 # Figure Sources
 
-This file records the external source of each figure copied into this manuscript project.
-
 Source root:
 
 - `D:\OneDrive\programs\vscodepython\marjorana\server_data_analysis\1-18-analysis`
 
-Selected figures copied into `figures/selected/`:
+Phase-resolved figures copied into `figures/phases/`:
 
-- `bulk_average_ABC_vs_U_N_120_U_0_2.png`
-  - Source: `outputni\bulk_average_ABC_vs_U\bulk_average_ABC_vs_U_N_120_U_0_2.png`
-- `bulk_average_ABC_vs_U_N_120_U_all.png`
-  - Source: `outputni\bulk_average_ABC_vs_U\bulk_average_ABC_vs_U_N_120_U_all.png`
-- `dEdU_vs_U_N_120_U_0_2.png`
-  - Source: `outputdEdU\dEdU_vs_U\dEdU_vs_U_N_120_U_0_2.png`
-- `bulk_average_vs_U_N_120_U_0_2.png`
-  - Source: `outputninj\bulk_average_vs_U\bulk_average_vs_U_N_120_U_0_2.png`
-- `nBB_bulk_average_vs_U_N_120_U_0_2.png`
-  - Source: `output2ninj\nBB\bulk_average_vs_U\nBB_bulk_average_vs_U_N_120_U_0_2.png`
-- `central_charge_vs_U_N_120_U_0_2.png`
-  - Source: `outputEE\central_charge_vs_U\central_charge_vs_U_N_120_U_0_2.png`
-- `CDWorder_vs_U_N_120_U_0_2.png`
-  - Source: `outputCDWorder\CDWorder_vs_U\CDWorder_vs_U_N_120_U_0_2.png`
-- `densitycorr_power_index_vs_U_N_120_U_0_2.png`
-  - Source: `outputdensitycorr\densitycorr_power_index_vs_U\densitycorr_power_index_vs_U_N_120_U_0_2.png`
-- `BdagB_length_vs_U_N_120_U_0_2.png`
-  - Source: `output2cdagicj\BdagB\length_vs_U\BdagB_length_vs_U_N_120_U_0_2.png`
-- `majorana_length_vs_U_N_120_U_0_2.png`
-  - Source: `outputgammaigammaj\majorana_length_vs_U\majorana_length_vs_U_N_120_U_0_2.png`
-- `left_localization_length_vs_U_N_120_U_0_2.png`
-  - Source: `outputgamma3gammaj\left_localization_length_vs_U\left_localization_length_vs_U_N_120_U_0_2.png`
-- `right_localization_length_vs_U_N_120_U_0_2.png`
-  - Source: `outputgammajgammaN\right_localization_length_vs_U\right_localization_length_vs_U_N_120_U_0_2.png`
+- `phase1_U0_corr.png`
+  - Source: `outputgammaigammaj\middle_column_raw\gammaigammaj_N_120_sweep_87_t_0.030000_J_1.000000_V_0.600000_D_0.018000_U_0.000000_mu_0.000000_E_0.png`
+- `phase1_U0_EE.png`
+  - Source: `outputEE\S_l_vs_l\EE_N_120_sweep_87_t_0.030000_J_1.000000_V_0.600000_D_0.018000_U_0.000000_mu_0.000000_E_0.png`
+- `phase1_U0_ni.png`
+  - Source: `outputni\sublattice_profile_ABC\ni_N_120_sweep_87_t_0.030000_J_1.000000_V_0.600000_D_0.018000_U_0.000000_mu_0.000000_E_0.png`
 
-Matching raw curve files copied into `data/selected_curves/` use the same base names with `.txt` extensions.
+- `phase2_U0p2_EE.png`
+  - Source: `outputEE\S_l_vs_l\EE_N_120_sweep_87_t_0.030000_J_1.000000_V_0.600000_D_0.018000_U_0.200000_mu_0.000000_E_0.png`
+- `phase2_U0p2_ni.png`
+  - Source: `outputni\sublattice_profile_ABC\ni_N_120_sweep_87_t_0.030000_J_1.000000_V_0.600000_D_0.018000_U_0.200000_mu_0.000000_E_0.png`
+- `phase2_U0p2_A_bond.png`
+  - Source: `output2cdagicj\AdagB_eq_BdagA\nearest_distance_profile\AdagB_N_120_sweep_87_t_0.030000_J_1.000000_V_0.600000_D_0.018000_U_0.200000_mu_0.000000_E_0.png`
+- `phase2_U0p2_B_bond.png`
+  - Source: `output2cdagicj\BdagB\nearest_distance_profile\BdagB_N_120_sweep_87_t_0.030000_J_1.000000_V_0.600000_D_0.018000_U_0.200000_mu_0.000000_E_0.png`
+
+- `phase3_U0p6_corr.png`
+  - Source: `outputgammaigammaj\middle_column_raw\gammaigammaj_N_120_sweep_87_t_0.030000_J_1.000000_V_0.600000_D_0.018000_U_0.600000_mu_0.000000_E_0.png`
+- `phase3_U0p6_EE.png`
+  - Source: `outputEE\S_l_vs_l\EE_N_120_sweep_87_t_0.030000_J_1.000000_V_0.600000_D_0.018000_U_0.600000_mu_0.000000_E_0.png`
+- `phase3_U0p6_ni.png`
+  - Source: `outputni\sublattice_profile_ABC\ni_N_120_sweep_87_t_0.030000_J_1.000000_V_0.600000_D_0.018000_U_0.600000_mu_0.000000_E_0.png`
+- `phase3_U0p6_A_bond.png`
+  - Source: `output2cdagicj\AdagB_eq_BdagA\nearest_distance_profile\AdagB_N_120_sweep_87_t_0.030000_J_1.000000_V_0.600000_D_0.018000_U_0.600000_mu_0.000000_E_0.png`
+- `phase3_U0p6_B_bond.png`
+  - Source: `output2cdagicj\BdagB\nearest_distance_profile\BdagB_N_120_sweep_87_t_0.030000_J_1.000000_V_0.600000_D_0.018000_U_0.600000_mu_0.000000_E_0.png`
+
+- `phase4_U1p5_EE.png`
+  - Source: `outputEE\S_l_vs_l\EE_N_120_sweep_87_t_0.030000_J_1.000000_V_0.600000_D_0.018000_U_1.500000_mu_0.000000_E_0.png`
+- `phase4_U1p5_ni.png`
+  - Source: `outputni\sublattice_profile_ABC\ni_N_120_sweep_87_t_0.030000_J_1.000000_V_0.600000_D_0.018000_U_1.500000_mu_0.000000_E_0.png`
+- `phase4_U1p5_A_bond.png`
+  - Source: `output2cdagicj\AdagB_eq_BdagA\nearest_distance_profile\AdagB_N_120_sweep_87_t_0.030000_J_1.000000_V_0.600000_D_0.018000_U_1.500000_mu_0.000000_E_0.png`
+- `phase4_U1p5_B_bond.png`
+  - Source: `output2cdagicj\BdagB\nearest_distance_profile\BdagB_N_120_sweep_87_t_0.030000_J_1.000000_V_0.600000_D_0.018000_U_1.500000_mu_0.000000_E_0.png`
+
+- `phase5_U5_ni.png`
+  - Source: `outputni\sublattice_profile_ABC\ni_N_120_sweep_87_t_0.030000_J_1.000000_V_0.600000_D_0.018000_U_5.000000_mu_0.000000_E_0.png`
+- `phase5_U5_A_bond.png`
+  - Source: `output2cdagicj\AdagB_eq_BdagA\nearest_distance_profile\AdagB_N_120_sweep_87_t_0.030000_J_1.000000_V_0.600000_D_0.018000_U_5.000000_mu_0.000000_E_0.png`
+- `phase5_U5_B_bond.png`
+  - Source: `output2cdagicj\BdagB\nearest_distance_profile\BdagB_N_120_sweep_87_t_0.030000_J_1.000000_V_0.600000_D_0.018000_U_5.000000_mu_0.000000_E_0.png`
