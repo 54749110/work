@@ -7,64 +7,117 @@
   longbibliography
 ]{revtex4-2}
 
+\usepackage[utf8]{inputenc}
 \usepackage{graphicx}
 \usepackage{dcolumn}
 \usepackage{bm}
 \usepackage{hyperref}
+\usepackage{CJKutf8}
 
 \begin{document}
 
-\title{Interaction-driven reconstruction of geometric and topological correlations in a flat-band Lieb-Kitaev chain}
+\title{Phase Diagram of the Interacting Lieb-Kitaev chain model}
 
-\author{Jiale Xuan}
+\author{Jiale Xuan ? others}
 \affiliation{School of Physics and Astronomy, Shanghai Jiao Tong University, Shanghai 200240, China}
 \date{\today}
 
 \begin{abstract}
-We study an interacting spinless Lieb-Kitaev chain in the nearly flat-band regime, motivated by the recent observation that Majorana zero modes in this system inherit two distinct spatial scales: an ordinary Bogoliubov-de Gennes localization length and a longer geometric length controlled by the quantum metric of the parent band. Using finite-system density-matrix renormalization group calculations together with a projected low-energy interpretation, we analyze how these structures evolve under nearest-neighbor density interaction. The present manuscript is intentionally written around the numerics that are already available, including orbital-resolved occupations, energy derivatives, entanglement-based central-charge estimates, bond observables, and extracted correlation lengths. The most robust trend is an interaction-driven orbital redistribution in which the central orbital approaches half filling while the side orbitals become increasingly imbalanced. This orbital reconstruction correlates with multiple anomalies in $dE/dU$, with enhanced bond and density correlations, and with a broad intermediate regime that is not captured by a single direct transition from a weak-coupling topological superconductor to a strong-coupling charge-density-wave state. At weak coupling the data remain compatible with a surviving long geometric Majorana scale, whereas at larger repulsion the system develops strong correlation effects, possible critical windows, and finally a conventional density-ordered regime. These results support the view that in flat-band topological superconductors quantum geometry and interaction-driven ordering are deeply intertwined.
+We study an interacting spinless Lieb-Kitaev chain in the nearly flat-band regime, motivated by the recent observation that Majorana zero modes in the non-interacting Lieb-Kitaev system inherit two decay modes: an ordinary Bogoliubov-de Gennes localization length and a longer geometric length controlled by the quantum metric . Using finite-system density-matrix renormalization group (DMRG) calculations , we analyze how these structures evolve under repulsive nearest-neighbor density interaction. At weak coupling the data remain compatible with a surviving long geometric Majorana scale, whereas at larger repulsion the system exhibits charge order, showing repeated transitions between commensurate and incommensurate CDW phases, and a conventional density-ordered phase in the strong coupling regime. These results support the view that in flat-band topological superconductors quantum geometry and interaction-driven ordering are deeply intertwined.
 \end{abstract}
 
 \maketitle
 
 \section{Introduction}
 
-Flat-band superconductivity has become a central theme in modern condensed-matter physics because the suppression of bare kinetic energy elevates the role of quantum geometry in setting collective transport and coherence scales~\cite{peotta2015,julku2016,torma2022}. In conventional single-band BCS systems, the coherence length is primarily controlled by dispersion and pairing amplitude. In contrast, multiband flat-band systems admit an additional geometric contribution: the quantum metric of Bloch wave functions can enter superfluid transport, pairing response, and real-space localization properties. The Lieb family of lattices is a canonical setting for this physics because it naturally supports nearly flat or exactly flat bands while retaining nontrivial orbital structure.
+Over the past two decades, flat-band materials have attracted considerable interest. Owing to the quenching of kinetic energy in flat bands, interaction effects are substantially enhanced and can dominate the low-energy physics, rendering flat-band systems a fertile platform for investigating strongly correlated phenomena and interaction-driven quantum phases. This has led to the realization of a wide range of exotic states, including unconventional superconductivity~\cite{caoUnconventionalSuperconductivityMagicangle2018,peottaSuperfluidityTopologicallyNontrivial2015a,yankowitzTuningSuperconductivityTwisted2019},  magnetism ~\cite{repellinFerromagnetismNarrowBands2020,linFlatbandsEmergentFerromagnetic2018}, and fractional topological phases ~\cite{tangHighTemperatureFractionalQuantum2011,regnaultFractionalChernInsulator2011,royBandGeometryFractional2014}. 
 
-This geometric viewpoint became especially sharp in the recent analysis of Majorana zero modes in the noninteracting Lieb-Kitaev model~\cite{chen2024,guo2025}. There, the edge mode does not exhibit a single localization length. Instead, one finds two distinct correlation lengths: a short Bogoliubov-de Gennes scale associated with ordinary topological superconducting localization, and a longer geometric scale inherited from the spread of flat-band wave functions. The latter is controlled by the quantum metric and can become parametrically large in the nearly flat-band regime. This immediately raises a nontrivial many-body question: once interactions are introduced, does the geometric long tail survive as a physically meaningful scale, or is it washed out by correlation-driven reconstruction?
+For a superconducting (SC) phase within a conventional single-band BCS picture, a perfectly flat band has vanishing band curvature and thus an infinite effective mass would appear to strongly inhibit superconductivity. In contrast, in multiband flat-band systems, the complete quenching of the band dispersion does not eliminate the nontrivial momentum-space structure of the Bloch wave functions~\cite{huhtinenRevisitingFlatBand2022,tormaQuantumMetricEffective2018a,huGeometricConventionalContributions2025,tovmasyanEffectiveTheoryEmergent2016a}. The Bloch states can retain a finite extent in Hilbert space across the Brillouin zone, reflecting their variation with crystal momentum, and this quadratic spread is quantified by the quantum metric through the infinitesimal distance between neighboring Bloch states~\cite{restaInsulatingStateMatter2011,chengQuantumGeometricTensor2010,yuQuantumGeometryQuantum2025}. Such nontrivial quantum geometry provides an additional channel for superconducting transport that is absent in the conventional single-band picture. As a consequence, a finite superfluid weight and robust superconducting coherence can persist even in the flat-band limit, despite the absence of conventional band-dispersion contributions~\cite{peottaPeottaHeTorma2015Superfluidity2015,xieTopologyBoundedSuperfluidWeight2020a,tormaSuperconductivitySuperfluidityQuantum2022a,julkuGeometricOriginSuperfluidity2016a}.
 
-That question is important because interactions are unavoidable precisely in the regimes where flat-band geometry matters most. Reduced bandwidth amplifies the effect of density interactions, enhances the competition between superconductivity and charge ordering, and can generate phases that have no simple noninteracting counterpart. In one-dimensional topological superconductors, repulsive interactions are already known to reshape phase boundaries and to compete with pairing through commensurate or incommensurate density correlations~\cite{katsura2015,gangadharaiah2011,mahyaeh2020}. In a multiorbital flat-band system, the same competition should be even richer because interactions act on orbitally structured Wannier states rather than on a featureless single channel.
 
-This broader motivation is reinforced by two complementary lines of reasoning developed in our project notes~\cite{flatbandnotes}. On the attractive side, a negative-$U$ interaction can in principle induce superconductivity even without imposing an explicit pairing field $\Delta$, making the flat-band Lieb geometry an intrinsic platform for interaction-generated superconducting order. On the repulsive side, a positive-$U$ interaction in the presence of finite $\Delta$ is expected to produce a nontrivial phase diagram rather than a trivial suppression of superconductivity: topological pairing, orbital redistribution, bond ordering, and density ordering can all compete on comparable footing. The present manuscript uses this physical picture to organize the available DMRG data into a phase-resolved PRB narrative.
+The superconducting coherence length is a fundamental length scale that characterizes the spatial extent of superconducting correlations. In conventional BCS superconductors, it is given by \(\xi_{\mathrm{BCS}}\sim \hbar v_F/\Delta\), with \(v_F\) the kinetic energy  and  \(\Delta\) the pairing gap . This length scale measures the characteristic size of Cooper pairs. By comparison, recent developments have shown that the quantum metric of Bloch wave functions not only generates a finite geometric contribution to the superfluid weight, but also establishes an intrinsic length scale governing superconducting phenomena~\cite{chenGinzburgLandauTheoryFlat2024,huAnomalousCoherenceLength2025,yangQuantumGeometricKondo2026}. This geometric viewpoint became significant in the recent analysis of Majorana zero modes in the noninteracting Lieb-Kitaev model ~\cite{guoMajoranaZeroModes2025}. There, the edge mode does not exhibit a single localization length. Instead, one finds two distinct correlation lengths: a short Bogoliubov-de Gennes scale associated with ordinary topological superconducting localization ~\cite{kitaevUnpairedMajoranaFermions2001,miaoMajoranaZeroModes2018}, and a longer geometric scale inherited from the spread of flat-band wave functions. The latter is controlled by the quantum metric and can become parametrically large in the nearly flat-band regime. This immediately raises a  many-body question: once repulsive interactions are introduced, does the geometric long tail survive as a physically meaningful scale, or is it washed out by correlation-driven reconstruction?
+
+In previous studies, interactions were typically introduced in the form of an attractive pairing channel, which directly promotes Cooper pairing and thereby induces superconductivity.
+Representative examples in one dimension include stub~\cite{thuminFlatBandSuperconductivity2023}, sawtooth~\cite{chanPairingSuperconductivityQuasi2022}, Creutz~\cite{chanPairingSuperconductivityQuasi2022,mondainiPairingSuperconductivityFlat2018,tovmasyanEffectiveTheoryEmergent2016a,salernoDrudeWeightManybody2023}, and related multiorbital chains. Here, we retain the attractive interaction responsible for superconducting pairing while introducing a repulsive interaction to incorporate competing correlation effects beyond the pairing channel. Such a coexistence of attractive and repulsive interactions is physically natural in many electronic systems: an effective attractive pairing interaction may arise from phonons, collective fluctuations, or superexchange processes, while residual Coulomb interactions remain repulsive. This situation is encountered, for example, in electron-phonon superconductors~\cite{morelCalculationSuperconductingState1962,sacepeQuantumBreakdownSuperconductivity2020}, moiré flat-band systems~\cite{wuTheoryPhononMediatedSuperconductivity2018,lianTwistedBilayerGraphene2019}, and extended Hubbard models~\cite{pencPhaseDiagramOnedimensional1994,aligiaPhaseDiagramOnedimensional2000}, where the competition between pairing and repulsion can substantially reshape the superconducting state and stabilize competing charge-ordered phases.
+
+
+To address this question beyond mean-field theory, we employ density-matrix renormalization group (DMRG) calculations to investigate the interacting one-dimensional flat-band superconductor. By systematically resolving its phase structure, correlation functions, and characteristic length scales, we aim to determine how repulsive interactions reshape superconductivity and whether the quantum-geometric length scale remains robust in the many-body regime.
+
 
 \section{Model and theoretical framework}
 \label{sec:model}
 
-We consider a one-dimensional chain of unit cells $j=1,\dots,L$, each containing three spinless orbitals $(A_j,B_j,C_j)$ with annihilation operators $(a_j,b_j,c_j)$. Guided by the noninteracting Lieb-Kitaev construction~\cite{guo2025}, we write
+We consider an interacting Lieb-Kiatev chain model, governed by the Hamiltonian  
+
 \begin{equation}
-H = H_t + H_\Delta + H_V + H_U,
-\end{equation}
-with
-\begin{align}
-H_t &= \sum_j \Big[
-t_1 a_j^\dagger b_j + t_1 c_j^\dagger b_j
-+ t_2 a_{j+1}^\dagger b_j + t_2 c_j^\dagger b_{j+1}
-+ \text{H.c.}
-\Big], \\
-H_\Delta &= \sum_j \Big[
-\Delta_1 a_j b_j + \Delta_1 c_j b_j
-+ \Delta_2 a_{j+1} b_j + \Delta_2 c_j b_{j+1}
-+ \text{H.c.}
-\Big], \\
-H_V &= V \sum_j (\hat n_{C,j} - \hat n_{A,j})
-- \mu \sum_j (\hat n_{A,j}+\hat n_{B,j}+\hat n_{C,j}), \\
-H_U &= U \sum_j \left(\hat n_j-\frac{1}{2}\right)\left(\hat n_{j+1}-\frac{1}{2}\right).
-\end{align}
-Here $\hat n_{\alpha,j}$ is the number operator on orbital $\alpha\in\{A,B,C\}$, and $\hat n_j$ denotes the density combination used in the numerical implementation. The representative parameter set in the present dataset is
-\begin{equation}
-t=0.03,\qquad J=1,\qquad V=0.6,\qquad \Delta=0.018,\qquad \mu=0.
+H = H_0 + H_U,
 \end{equation}
 
-For the noninteracting parent model, the cell-periodic Bloch states $\lvert u_n(k)\rangle$ define the quantum geometric tensor
+with
+
+\begin{align}
+H_0
+={}&-t\sum_j\sum_{\alpha=A,B,C}
+\left(
+c_{j\alpha}^{\dagger}c_{j+1,\alpha}
++\mathrm{h.c.}
+\right)
+\nonumber\\
+&-V\sum_j c_{jA}^{\dagger}c_{jA}
++V\sum_j c_{jC}^{\dagger}c_{jC}
+\nonumber\\
+&-J\sum_j
+\left(
+c_{jA}^{\dagger}c_{jB}
++c_{jC}^{\dagger}c_{jB}
++\mathrm{h.c.}
+\right)
+\nonumber\\
+&-J\sum_j
+\left(
+c_{jA}^{\dagger}c_{j+1,B}
++c_{jC}^{\dagger}c_{j+1,B}
++\mathrm{h.c.}
+\right)
+\nonumber\\
+&+\Delta\sum_j\sum_{\alpha=A,B,C}
+\left(
+c_{j\alpha}c_{j+1,\alpha}
++\mathrm{h.c.}
+\right).
+\end{align}
+
+and 
+
+\begin{equation}
+H_U = U \sum_j\sum_{\alpha=A,B,C} \hat{n}_{j\alpha} \hat{n}_{j+1,\alpha}
+\end{equation}
+
+The Lieb–Kitaev model describes a one-dimensional three-orbital lattice at open boundary condition with orbitals \(A\), \(B\), and \(C\) in each unit cell $j$ (Fig.~\ref{fig:1}(a)) . The onsite energies of the three orbitals are shifted by \(-V\), \(0\), and \(+V\). The hopping amplitude \(J\) couples the \(B\) orbital to the neighboring \(A\) and \(C\) orbitals, both within the same unit cell and between adjacent unit cells, forming the characteristic Lieb-like lattice geometry.  To realize a topological superconducting phase, nearest-neighbor intra-orbital pairing with amplitude \(\Delta\) is introduced between the same orbitals in adjacent unit cells. In addition, a weaker hopping \(t\) connects identical orbitals in neighboring unit cells and gives the otherwise flat middle band a small dispersion: $\epsilon_0= -2t \cos(ka)$ ,where $a$ is the lattice constant.
+
+To maintain the flat-band regime, the dispersion of the middle band, characterized by the energy scale \(2t\), should be much smaller than the separation from the dispersive bands, \(E_g=|V|\) and the dominant hopping $J$. When we choose parameters  $t=0.03 , V=0.6 , J=1 , \Delta=0.018$, the flat-band condition remains satisfied (Fig.~\ref{fig:1}(b)).
+
+
+Recent work ~\cite{guoMajoranaZeroModes2025} showed that the Majorana edge profile in the Lieb-Kitaev model inherits both a short localization length and a longer scale tied to $\xi_{\rm QM}$. For the noninteracting parent model, the bulk property given by Bloch states $\lvert u_n(k)\rangle$ define the quantum geometric tensor
+
+
+\begin{figure}[t]
+    \centering
+
+    \includegraphics[width=0.9\columnwidth]{figures/lattice.png}
+
+    \vspace{2mm}
+
+    \includegraphics[width=0.9\columnwidth]{figures/energyband.png}
+
+    \caption{
+    \textbf{(a):} Lattice structure of the Lieb--Kitaev chain.
+    \textbf{(b):} Energy bands of the one-dimensional Lieb--Kitaev
+    chain model for $t=0.03$, $V=0.6$, $J=1$, and $\Delta=0.018$.
+    }
+    \label{fig:1}
+\end{figure}
+
 \begin{equation}
 \mathcal{Q}_{\mu\nu}(k)
 =
@@ -72,191 +125,542 @@ For the noninteracting parent model, the cell-periodic Bloch states $\lvert u_n(
 \left[1-\lvert u(k)\rangle\langle u(k)\rvert\right]
 \vert \partial_\nu u(k)\rangle,
 \end{equation}
-whose real part gives the quantum metric~\cite{resta2011}
-\begin{equation}
-g_{\mu\nu}(k)=\mathrm{Re}\,\mathcal{Q}_{\mu\nu}(k).
-\end{equation}
-In one dimension, the corresponding geometric length is estimated schematically by
-\begin{equation}
-\xi_{\rm QM}
-=
-\left[\frac{1}{2\pi}\int_{\rm BZ} dk\, g_{kk}(k)\right]^{1/2}.
-\end{equation}
-Recent work showed that the Majorana edge profile in the Lieb-Kitaev model inherits both a short localization length and a longer scale tied to $\xi_{\rm QM}$~\cite{chen2024,guo2025}. The central issue here is whether an interacting descendant of this long scale remains visible in many-body observables.
 
-To interpret the intermediate-coupling regime we also use a projected low-energy viewpoint. After projection onto the isolated low-energy band, the effective Hamiltonian has the schematic form
+
+Solving the hamiltonian in momentum space, the eigenstate of the middle band can
+be written as
 \begin{equation}
-H_{\rm proj}
-=
-\sum_k \varepsilon_k \gamma_k^\dagger \gamma_k
-+ \sum_k \left(\Delta_k \gamma_k^\dagger \gamma_{-k}^\dagger + \text{H.c.}\right)
-+ H_{\rm proj}^{(4)},
+    |u_0(k)\rangle
+    =
+    \frac{1}
+    {\sqrt{4J^2[1+\cos(ka)]+V^2}}
+    \begin{pmatrix}
+        a_k \\
+        V \\
+        -a_k
+    \end{pmatrix}
 \end{equation}
-where $H_{\rm proj}^{(4)}$ contains interaction-generated four-fermion terms dressed by multiorbital form factors. Bosonization of the resulting one-dimensional theory suggests the coexistence of pairing, commensurate density locking, and incommensurate density modulation,
+
+where  $a_k=-J(1+e^{ika})$ . We define the quantum metric length through the Brillouin-zone-averaged quantum metric
+
 \begin{equation}
-\mathcal{H}
-=
-\frac{v}{2\pi}\int dx \left[K(\partial_x\theta)^2 + K^{-1}(\partial_x\phi)^2\right]
-- g_\Delta \int dx\,\cos(2\theta)
-+ g_u \int dx\,\cos(4\phi)
-+ g_q \int dx\,\cos(2\phi-Qx),
+    \xi_{\rm QM}
+    \equiv
+    \frac{1}{a}
+    \frac{a}{2\pi}
+    \int_{\rm BZ} dk\,\mathcal{Q}_{\mu\nu}(k)
+    \simeq
+    \frac{\sqrt{2}}{4}
+    \frac{J}{V}a
 \end{equation}
-which provides a natural phenomenology for multiple competing regimes~\cite{giamarchi2004,shankar2017,vondelft1998}.
+
+On the other hand, the Majorana wave function under open boundary conditions can be
+constructed from the projected bulk Green's function,
+\begin{equation}
+    \psi_L(x)
+    \propto
+    G^p(x,x_{\rm L};0)\chi_{\rm L},
+\end{equation}
+
+where
+
+\begin{equation}
+    G^p(x,x';0)
+    =
+    \sum_{n=\pm}
+    \int\frac{dk}{2\pi}\,
+    \frac{g_n(k)g_n^\dagger(k)}
+    {-\epsilon_n(k)}
+    e^{ik(x-x')}.
+\end{equation}
+where $\epsilon_n(k)$ denotes the dispersion of the two low-energy
+Bogoliubov quasiparticle bands, while $g_n(k)$ is the corresponding
+BdG Bloch eigenstate.  The vector $\chi_{\rm L}$
+encodes the local boundary coupling that generates the left Majorana
+mode under open boundary conditions.
+
+The low-energy BdG eigenstates can be factorized as
+\begin{equation}
+    g_{\pm}(k)
+    =
+    v_{\pm}(k)\otimes u_0(k),
+\end{equation}
+
+Here, $v_{\pm}(k)$ describes the particle--hole structure of the
+effective Kitaev sector, whereas $u_0(k)$ is the Bloch eigenstate of
+the normal-state flat band and describes its orbital structure.
+Accordingly, the projected Green's function contains two distinct
+momentum-dependent factors. The quasiparticle part, consisting of
+$v_{\pm}(k)v_{\pm}^{\dagger}(k)$ together with
+$1/\epsilon_{\pm}(k)$, produces poles associated with the BdG
+quasiparticle dispersion and gives the conventional localization
+length $\xi_{\rm BCS}$. In contrast, the orbital projector
+$u_0(k)u_0^{\dagger}(k)$ contains additional poles originating from
+the momentum dependence of the flat-band Bloch wave function. These
+poles generate the geometric localization length that is just $4\xi_{\rm QM} =\frac{\sqrt{2} J}{V}a $.
+Consequently, the Majorana wave function contains two exponentially
+decaying components,
+\begin{equation}
+    \psi_{\rm L}(x)
+    =
+    A_{\rm BCS}e^{-x/\xi_{\rm BCS}}
+    +
+    A_{\rm QM}e^{-x/(4\xi_{\rm QM})}.
+\end{equation}
+
 
 \section{Numerical strategy}
 \label{sec:numerics}
 
-The interacting ground state is computed by finite-system DMRG with open boundary conditions using ITensor~\cite{fishman2022}. The three-orbital chain is mapped to a one-dimensional matrix-product-state sequence
-\begin{equation}
-(A_1,B_1,C_1,A_2,B_2,C_2,\dots,A_L,B_L,C_L).
-\end{equation}
-The source calculations emphasize careful sweep scheduling and convergence control, which is essential because the entanglement rises substantially in parts of the repulsive regime and because several observables show narrow anomalies as $U$ varies.
+The interacting ground state is computed by finite-system DMRG with open boundary conditions using ITensor~\cite{fishman2022}. The three-orbital chain is mapped to a one-dimensional matrix-product-state sequence $(A_1,B_1,C_1,A_2,B_2,C_2,\dots,A_L,B_L,C_L)$. We choose the parameter $t=0.03$, $V=0.6$, $J=1$ and $\Delta=0.018$ and restrict the system to half filling for this spinless model. The source calculations emphasize careful sweep scheduling and convergence control, which is essential because the entanglement rises substantially in parts of the repulsive regime and because flat-band systems generally exhibit a large degree of degeneracy.
 
-The main observables used below are entanglement entropy profiles, orbital-resolved occupations, Majorana-related correlation functions, and real-space bond observables. In the figure labels, the $A$-sector bond diagnostic is represented by the real-space pattern of the correlator stored in the \texttt{AdagA} dataset, while the $B$-sector diagnostic is represented by the \texttt{BdagB} dataset. When the entropy profile is compatible with conformal scaling, the central charge can be estimated from the open-chain formula
+The nontrivial decay modes in this model can be characterized by the superconducting coherence length, which is conventionally extracted from the pair correlation function and remains applicable in flat-band systems. Here we adopt an alternative approach based on the geometric character of the flat band. In this case, the relevant superconducting length scale is related to the quadratic spread of the Wannier states, which is governed by the bloch functions and can be directly accessed through single-particle correlation functions $\langle c^{\dagger}_i c_j\rangle$ , $\langle c_i c_j\rangle$. These quantities can be used to characterize the long-range collective decay modes, and after extrapolation to the thermodynamic limit, the extracted values are consistent with the theoretical predictions.
+
+
+\begin{figure}[t]
+    \centering
+
+    \includegraphics[width=0.9\columnwidth]{figures/corre.png}
+
+    \vspace{2mm}
+
+    \includegraphics[width=0.9\columnwidth]{figures/finitesize.png}
+
+    \caption{
+    \textbf{(a):} The exponential decay of the correlation function $C(r)=\langle c_i c_{i+r}\rangle$. The decay length is irrelevant to lattice position $i$ in the bulk.
+    \textbf{(b):} Finite size effect of the correlation functions . The blue line represents the exponential decay length of $\langle c_{1B} c_{jB}\rangle$ , and the green line represents the exponential decay length of $\langle c_{iB}c_{LB}\rangle$ Here the parameters are  $t=0.03$, $V=0.1$, $J=1$ $\Delta=0.018$ and $a=3$ with $4\xi_{\rm QM} =\frac{\sqrt{2} J}{V}a \approx 42.4$.
+    }
+    \label{fig:2}
+\end{figure}
+
+We use central charge to justify an ICDW phase . In one dimension, the ICDW phase is typically gapless and is described by a Luttinger liquid, so the entanglement entropy follows the conformal scaling form with a finite central charge, usually \(c=1\) for a single gapless charge mode. By contrast, a commensurate CDW phase is generally gapped, for which the entanglement entropy saturates at long distances and the effective central charge vanishes, \(c=0\). A fully gapped one-dimensional superconducting phase, including a gapped topological superconducting phase, has no gapless bulk degrees of freedom and therefore corresponds to an effective central charge \(c=0\). Central charge can be obtained from entanglement entropy with the Calabrese–Cardy formula at open boundary condition~\cite{pasqualecalabreseEntanglementEntropyQuantum2004}.
+
+
 \begin{equation}
 S(\ell)=\frac{c}{6}\ln\left[\frac{2L}{\pi}\sin\left(\frac{\pi \ell}{L}\right)\right]+s_0.
 \end{equation}
-In the present phase-resolved discussion, however, the real-space morphology of the raw observables is more informative than any single fitted scalar quantity.
+
+\begin{table*}[t]
+    \centering
+    \includegraphics[width=\textwidth]{figures/phase.png}
+    \caption{
+    Phase diagram of the interacting
+    Lieb--Kitaev chain in different interaction regimes.  $(A B C)$specify the corresponding orbitals. CDW, BOW, and PDW denote charge-density wave, bond-order
+    wave, and pair-density wave, and ICDW refers to an incommensurate phase, respectively. The parameters are $t=0.03$, $\Delta=0.018$, $V=0.6$,
+    and  $J=1$ . Charge sector is measured with $\langle \hat{n}_i \rangle$ , Bond order is measured with $\langle c^{\dagger}_{i\alpha} c_{i+1 \alpha}\rangle$ , pairing order is measured with $\langle c_{i \alpha} c_{i+1 \alpha}\rangle$ . 
+    The boundaries between the listed regimes are approximate.   
+    }
+    \label{tab:phase_summary}
+\end{table*}
+
 
 \section{Results}
 \label{sec:results}
 
-The global scan of the repulsive branch remains important, especially the bulk-averaged occupations as functions of $U$, which show the strongest evidence for interaction-driven orbital redistribution. Within that broader picture, the phase-resolved data are most clearly discussed through five representative regimes. We therefore retain the broader interpretation of the manuscript while using the following five subsections to present the decisive real-space evidence phase by phase.
+
+
+Our DMRG calculations reveal a rich interaction-driven phase diagram in the half-filled interacting Lieb--Kitaev chain. Starting from weak interactions, the system first remains in the gapped topological superconducting phase continuously connected to the noninteracting Lieb--Kitaev limit, where the quantum-metric-induced length scale remains visible in the long-distance single-particle correlations. Upon increasing the nearest-neighbor repulsion \(U\), the system enters an incommensurate charge-density-wave (ICDW) regime for approximately \(0.1\lesssim U\lesssim0.3\), characterized by spatially modulated charge correlations and a finite central charge \(c\simeq1\), indicating a gapless Luttinger-liquid-like mode. This is followed by a reentrant gapped topological regime for \(0.3\lesssim U\lesssim0.8\), with a vanishing central charge and saturated entanglement entropy. At stronger interactions, another gapless ICDW regime emerges for \(0.8\lesssim U\lesssim2.5\), again accompanied by \(c\simeq1\), before the system finally evolves into a strongly coupled commensurate CDW phase for \(U\gtrsim2.5\), where the charge density becomes locked into a period-two pattern and the central charge returns to \(c=0\). In the intermediate regimes, the charge modulations are accompanied by corresponding bond- and pair-density modulations, reflecting the strongly intertwined charge, bond, and superconducting correlations of the multiorbital flat-band system.
+
+This evolution is most directly visualized through
+$n_\alpha(i)$. At weak coupling, the density is spatially
+uniform within each orbital, although the average
+occupations of different orbitals need not coincide.
+Incommensurate modulations subsequently develop on all
+three orbitals, producing an $ABC$-ICDW pattern.
+With increasing interaction, the $A$ and $C$ densities
+lock into pronounced period-two CDW configurations,
+while the $B$ density becomes nearly uniform again.
+The next regime retains this commensurate $AC$
+background, but the $B$ orbital develops a renewed
+incommensurate density response. Finally, the $B$
+density also locks into a period-two pattern as its
+average occupation approaches half filling, completing
+the formation of an $ABC$-CDW state. The $B$ orbital
+thus undergoes a distinctive sequence of modulation,
+flattening, and renewed modulation before joining
+the final commensurate state.
+
 
 \subsection{Phase I: topological phase}
 
-Phase I is the weak-coupling topological regime. Figure~\ref{fig:phase1} collects the Majorana-related correlation function, the entanglement entropy profile, and the orbital-resolved density profile at $U=0$. The correlation function exhibits the smooth long-ranged structure expected for the topological parent state, while the entropy profile remains consistent with a gapped regime. The sublattice occupations are already unequal, but they do not yet show the pronounced interaction-driven incommensurate locking that appears at larger $U$.
+The weak-interaction regime labelled TC ($0\leq U\lesssim0.1$)
+is characterized by spatially uniform bulk observables and a
+noncritical entanglement structure.
+(Fig~\ref{fig:TC_summary}(a)--(c)) show representative results at
+$U=0.05$ for $N=240$.
+The normal bond expectation values
+$\langle c^\dagger_{i\alpha}c_{i+1,\alpha}\rangle$ and pairing
+expectation values $\langle c_{i\alpha}c_{i+1,\alpha}\rangle$
+likewise approach uniform bulk values for $\alpha=A,B,C$.
+Thus, no bulk CDW, intraorbital BOW, or PDW modulation is resolved
+in these profiles. The nonzero, spatially uniform pairing amplitudes
+are compatible with the explicit pairing term in the Hamiltonian.
 
-\begin{figure*}
-  \includegraphics[width=0.48\textwidth]{figures/phases/phase1_U0_corr.png}
-  \hfill
-  \includegraphics[width=0.48\textwidth]{figures/phases/phase1_U0_EE.png}
-
-  \vspace{0.4em}
-  \centering
-  \includegraphics[width=0.48\textwidth]{figures/phases/phase1_U0_ni.png}
-  \caption{Phase I (topological phase) represented by $U=0$. Top row: Majorana-related correlation function and entanglement entropy profile. Bottom: orbital-resolved occupations versus position. The combined evidence is consistent with a gapped topological regime continuously connected to the noninteracting Lieb-Kitaev chain.}
-  \label{fig:phase1}
-\end{figure*}
-
-We therefore identify phase I as the topological reference state from which the interaction-driven reconstruction begins.
-
-\subsection{Phase II: ICDW phase at $U=0.15$}
-
-The second regime is represented by $U=0.15$. Figure~\ref{fig:phase2} shows the entanglement entropy, the full $ABC$ occupation profile, the single-$B$ occupation profile, and the two bond diagnostics. The density profile now displays clear incommensurate modulation on all three sublattices, which motivates the classification of the whole state as an $ABC$ incommensurate charge-density-wave phase. The separate $B$-orbital profile is included because it shows directly that the central orbital participates in this modulation rather than remaining a passive background channel.
-
-The bond observables further sharpen the interpretation. The $A$-sector \texttt{AdagA} pattern develops a pronounced oscillatory structure, supporting the assignment of an incommensurate bond-order response on the $A$ orbital. The available $B$-sector \texttt{BdagB} profile is taken from the nearest available dataset to $U=0.15$ and is included only as a supporting indicator of the central-channel modulation. In the language of the project, this phase is summarized as $ABC$ ICDW with additional $A$-sector IBOW and IPDW character.
-
-\begin{figure*}
-  \includegraphics[width=0.48\textwidth]{figures/phases/phase2_U0p15_EE.png}
-  \hfill
-  \includegraphics[width=0.48\textwidth]{figures/phases/phase2_U0p15_ni.png}
-
-  \vspace{0.4em}
-  \includegraphics[width=0.48\textwidth]{figures/phases/phase2_U0p15_A_bond.png}
-  \hfill
-  \includegraphics[width=0.48\textwidth]{figures/phases/phase2_U0p15_B_bond.png}
-
-  \vspace{0.4em}
-  \centering
-  \includegraphics[width=0.48\textwidth]{figures/phases/phase2_U0p15_B_profile.png}
-  \caption{Phase II (ICDW phase) represented by $U=0.15$. Top row: entanglement entropy and orbital-resolved $ABC$ occupations. Middle row: $A$-sector \texttt{AdagA} and $B$-sector \texttt{BdagB} bond diagnostics. Bottom: single-$B$ occupation profile versus position. The data support an $ABC$ ICDW structure, with additional incommensurate bond-order response on the $A$ orbital. The \texttt{BdagB} panel uses the nearest available dataset to $U=0.15$.}
-  \label{fig:phase2}
-\end{figure*}
-
-\subsection{Phase III: intermediate phase at $U=0.6$}
-
-The phase at $U=0.6$ is the intermediate regime where different sublattices support different kinds of order simultaneously. Figure~\ref{fig:phase3} shows the Majorana-related correlation function, entanglement entropy, orbital occupations, and the \texttt{AdagA}/\texttt{BdagB} bond diagnostics. The occupation profile indicates that the $A$ and $C$ sectors are already close to a charge-ordered pattern, whereas the $B$ orbital remains the least trivial channel. At the same time, the correlation function still retains a nontrivial topological-like structure, which supports the interpretation that the $B$ sector continues to carry the remnant topological response.
-
-The bond data are consistent with this mixed character. In the phase language used throughout the project, the most economical interpretation is
+The entanglement entropy reaches an essentially size-independent
+plateau for $N=120$ and $240$ (Fig.~\ref{fig:TC_summary}(d)]).
+Fitting the central half of the chain yields $c_{\mathrm{eff}}\simeq0$, consistent with a noncritical bulk.
+The normal correlation function on the $B$ orbital,
 \begin{equation}
-\text{Phase III: } AC~\mathrm{CDW},\qquad B~\mathrm{topological}+\mathrm{BOW}+\mathrm{PDW}.
+ G_B(r)=\langle c^\dagger_{iB}c_{i+r,B}\rangle,
+ \qquad i=40,
 \end{equation}
-This is the central coexistence regime separating the two incommensurate windows.
+exhibits approximately exponential decay
+(Fig.~\ref{fig:TC_summary}(e)) with $\xi\simeq2.375,2.438,2.534,2.632$ unit cells at
+$U=0,0.02,0.05,0.08$, respectively.
+The fitted decay length increases with interaction strength,
+while the approximately exponential form persists over the
+examined interval. Deviations from a single exponential become
+more visible at $U=0.08$.
 
-\begin{figure*}
-  \includegraphics[width=0.48\textwidth]{figures/phases/phase3_U0p6_corr.png}
-  \hfill
-  \includegraphics[width=0.48\textwidth]{figures/phases/phase3_U0p6_EE.png}
 
-  \vspace{0.4em}
-  \includegraphics[width=0.48\textwidth]{figures/phases/phase3_U0p6_ni.png}
-  \hfill
-  \includegraphics[width=0.48\textwidth]{figures/phases/phase3_U0p6_A_bond.png}
 
-  \vspace{0.4em}
-  \centering
-  \includegraphics[width=0.48\textwidth]{figures/phases/phase3_U0p6_B_bond.png}
-  \caption{Phase III (intermediate phase) represented by $U=0.6$. Top row: Majorana-related correlation function and entanglement entropy. Middle row: orbital-resolved occupations and the $A$-sector \texttt{AdagA} diagnostic. Bottom: the $B$-sector \texttt{BdagB} diagnostic. These observables support an intermediate regime in which the $A$ and $C$ sublattices are predominantly charge ordered while the $B$ channel retains topological, bond-order, and PDW-like character.}
-  \label{fig:phase3}
-\end{figure*}
 
-\subsection{Phase IV: second ICDW phase at $U=1.5$}
+We therefore identify phase I as the topological reference state from which the interaction-driven reconstruction begins.  The correlation function exhibits the smooth long-ranged structure expected for the topological parent state, while the entropy profile remains consistent with a gapped regime. The sublattice occupations are already unequal, but they do not yet show the pronounced interaction-driven incommensurate locking that appears at larger $U$.
 
-At $U=1.5$ the system enters a second incommensurate regime. Figure~\ref{fig:phase4} shows the entropy profile, the full $ABC$ occupations, the separate $B$-orbital occupation profile, and the two bond diagnostics. Relative to phase III, the $B$ sector now exhibits renewed incommensurate structure rather than the residual topological character emphasized in the intermediate regime. Meanwhile the $A$ and $C$ orbitals remain close to a charge-ordered background.
 
-This supports the phase assignment
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=\columnwidth]{figures/phasetc.png}
+    \caption{
+    Weak-interaction TC regime for 
+    (a)--(c) Orbital-resolved density, normal bond expectation value,
+    and pairing expectation value at $U=0.05$ and $N=240$.
+    Colors and symbols identify $\alpha=A,B,C$, and $i$ counts unit cells.
+    (d) Entanglement entropy for $N=120,240$, with $L=N/3$.
+    (e) Magnitude of the normal correlation
+    $\langle c^\dagger_{iB}c_{i+r,B}\rangle$ at $i=40$, $N=240$,
+    and $U=0,0.02,0.05,0.08$; $r$ is measured in unit cells.
+    }
+    \label{fig:TC_summary}
+\end{figure}
+
+\subsection{Phase II: ICDW phase }
+
+The second regime develops simultaneous modulations of the density,
+bond expectation values, and pairing amplitudes.
+At $U=0.24$, the orbital-resolved profiles in
+(Fig.~\ref{fig:phase2}(a)--(c)) display spatial oscillations with a
+slowly varying envelope, in contrast to the uniform bulk profiles
+of the TC regime. Corresponding oscillations occur in both
+$\langle c^\dagger_{i\alpha}c_{i+1,\alpha}\rangle$ and
+$\langle c_{i\alpha}c_{i+1,\alpha}\rangle$ for
+$\alpha=A,B,C$, identifying coupled density, bond, and pairing
+modulations on the finite chains. Moreover, the dominant
+Fourier component of each mean-subtracted bulk profile occurs
+at the same resolved wave vector, $Q\simeq0.95\pi$, with the
+unit-cell spacing set to unity. This common component,
+displaced from the period-two value $Q=\pi$, supports an
+$ABC$ charge modulation with incommensurate character on the
+studied finite chain.
+
+For $N=240$, the entanglement entropy exhibits
+oscillations about a smooth profile (Fig.~\ref{fig:phase2}(d)).
+We estimate the effective central charge.A fit over $L/4\leq\ell\leq3L/4$ yields $c_{\mathrm{eff}}=1.021$ for $N=240$.
+These estimates are compatible with a $c\simeq1$ critical
+regime.
+
+The mean occupation of the $B$ orbital provides a complementary
+measure of the interaction-driven density redistribution.
+Defining a bulk average over the central half of the chain,$\overline{n}_B=\frac{2}{L}
+\sum_{i=L/4+1}^{3L/4}\langle c^\dagger_{iB}c_{iB}\rangle$we plot its 9evolution over the interval$0\leq U\leq3$, for $N=120$ and $240$
+(Fig.~\ref{fig:phase2}(e)).
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=\columnwidth]{figures/phaseicdw1.png}
+    \caption{
+    Density, bond, pairing, and entanglement signatures of the
+    ICDW regime.
+    (a)--(c) $n_\alpha(i)$,
+    $\langle c^\dagger_{i\alpha}c_{i+1,\alpha}\rangle$, and
+    $\langle c_{i\alpha}c_{i+1,\alpha}\rangle$, respectively,
+    at $U=0.24$ and $N=240$. Colors and symbols distinguish
+    $\alpha=A,B,C$; $i$ labels unit cells.
+    (d) Entanglement entropy at $U=0.24$ for $N=240$,
+    with $L=N/3=80$. The fitted coefficient is $c_{\mathrm{eff}}=1.021$;
+    (e) Mean $B$-orbital occupation in the central half of the chain,
+    $\overline{n}_B=(2/L)\sum_{i=L/4+1}^{3L/4}n_B(i)$,
+    over $0\leq U\leq3$ for $N=120,240$.
+    }
+    \label{fig:phase2}
+\end{figure}
+
+
+
+One may relate the incommensurate phase to the doped Luttinger liquid inspired by the Kitaev-Hubbard model~\cite{mahyaehStudyPhaseDiagram2020,rahmaniPhaseDiagramInteracting2015,stoudenmireInteractionEffectsTopological2011a}. Even if the system is a nearly flat band, it still perserves a small dispersion. It therefore permits a low-energy expansion into right-
+and left-moving modes, providing the kinetic basis for a
+Luttinger-liquid description. The occupation of the $B$ orbital at $U=0.24$ is
+$\overline{n}_B=0.43859$ corresponds to a doped orbital
+$\delta_B\equiv1/2-\overline{n}_B\simeq0.06141$
+relative to half filling. Together with the estimate
+$c_{\mathrm{eff}}\simeq1$, this motivates a phenomenological
+interpretation in terms of a doped Luttinger liquid.
+In a single-component spinless Luttinger description, the
+low-energy excitations are collective density fluctuations,
+and the oscillatory part of the bulk connected density
+correlation has the form ~\cite{Voit1995}
 \begin{equation}
-\text{Phase IV: } AC~\mathrm{CDW},\qquad B~\mathrm{ICDW}+\mathrm{PDW}.
+ C_B^{\mathrm{osc}}(r)\sim
+ A_B\frac{\cos(Qr)}{r^{2K}},
+ \qquad Q=2k_F^{\mathrm{eff}},
+ \label{eq:phase2_icdw_ll}
 \end{equation}
-The separate $B$-profile panel is especially useful here because it makes the incommensurate modulation of the central channel explicit.
+where $K$ is the Luttinger parameter and the unit-cell spacing
+is set to unity. Doping the effective low-energy band away
+from a commensurate filling shifts $Q$ away from its
+commensurate value and introduces a spatial mismatch in the
+corresponding umklapp term. When the density field remains
+unlocked, this mismatch suppresses commensurate pinning at
+long distances, allowing an incommensurate density response
+in a gapless liquid~\cite{Giamarchi1997}.
 
-\begin{figure*}
-  \includegraphics[width=0.48\textwidth]{figures/phases/phase4_U1p5_EE.png}
-  \hfill
-  \includegraphics[width=0.48\textwidth]{figures/phases/phase4_U1p5_ni.png}
+\begin{figure}[t]
+ \centering
+ \includegraphics[width=\columnwidth]{figures/phasecdw1.png}
+ \caption{
+  Density, bond, pairing, and entanglement signatures of the
+  intermediate CDW regime.
+ (a) Orbital occupations $n_\alpha(i)$.
+ (b) Normal bond expectation values
+ (c) Pair expectation values
+ $\langle c_{i\alpha}c_{i+1,\alpha}\rangle$.
+ (d) Entanglement entropy at cell cuts $\ell$,
+ with $L=N/3=80$.
+ }
+ \label{fig:phase3}
+\end{figure}
 
-  \vspace{0.4em}
-  \includegraphics[width=0.48\textwidth]{figures/phases/phase4_U1p5_A_bond.png}
-  \hfill
-  \includegraphics[width=0.48\textwidth]{figures/phases/phase4_U1p5_B_bond.png}
 
-  \vspace{0.4em}
-  \centering
-  \includegraphics[width=0.48\textwidth]{figures/phases/phase4_U1p5_B_profile.png}
-  \caption{Phase IV (second ICDW phase) represented by $U=1.5$. Top row: entanglement entropy and orbital-resolved $ABC$ occupations. Middle row: $A$-sector \texttt{AdagA} and $B$-sector \texttt{BdagB} diagnostics. Bottom: single-$B$ occupation profile. The data support a regime with $AC$ charge order together with renewed incommensurate modulation in the $B$ channel.}
-  \label{fig:phase4}
-\end{figure*}
+\subsection{Phase III: intermediate CDW phase }
 
-\subsection{Phase V: strong-coupling CDW phase at $U=5$}
+The third regime is represented by $U=0.50$ and $N=240$.
+(Fig.~\ref{fig:phase3}(a)) shows a pronounced period-two density
+pattern on the $A$ and $C$ orbitals, while the $B$-orbital
+occupation remains nearly uniform in the bulk.
+To quantify this distinction, we define the staggered component
+of a local observable $O_\alpha(i)$ by
+\begin{equation}
+ m_{O,\alpha}=\frac{1}{2}
+ \left|\overline{O}_{\alpha,\mathrm{even}}
+       -\overline{O}_{\alpha,\mathrm{odd}}\right|,
+ \label{eq:phase3_staggering}
+\end{equation}
+where the averages are taken separately over even and odd
+unit cells in the central half of the chain.
+The density amplitudes are $m_{n,A}=0.2125$ and
+$m_{n,C}=0.1964$, whereas $m_{n,B}\simeq1.9\times10^{-6}$.
+The two large amplitudes vary by less than $0.2\%$ between
+$N=120$ and $240$. These results support a commensurate
+$AC$-CDW pattern, with no comparable density staggering
+resolved on the $B$ orbital.
 
-Finally, at strong coupling the real-space order is dominated by density locking. Figure~\ref{fig:phase5} shows the orbital-resolved occupations together with the \texttt{AdagA} and \texttt{BdagB} diagnostics at $U=5$. All three sublattices display strong density modulation, which identifies the global state as an $ABC$ CDW phase. At the same time, the $A$ channel retains a pronounced bond pattern, consistent with the project interpretation that the strong-coupling regime still contains residual $A$-sector BOW and PDW structure.
+The bond and pairing profiles reveal a complementary orbital
+structure (Figs.~\ref{fig:phase3}(b) and (c)).
+For $B_\alpha(i)=\langle c^\dagger_{i\alpha}c_{i+1,\alpha}\rangle$
+and $P_\alpha(i)=\langle c_{i\alpha}c_{i+1,\alpha}\rangle$,
+we obtain $m_{B,B}=7.45\times10^{-4}$ and
+$m_{P,B}=6.36\times10^{-4}$.
+The corresponding staggered components on $A$ and $C$ are
+below $10^{-6}$. Thus, the $B$ orbital supports alternating
+bond and pairing amplitudes despite its nearly uniform
+local density. The pairing modulation coexists with a
+nonzero uniform component, $\overline{P}_B=-0.00455$. The entanglement entropy approaches two nearly constant
+branches associated with even and odd cuts
+(Fig.~\ref{fig:phase3}(d)). Taken together, the profiles support a third regime with
+commensurate $AC$-CDW and $B$-orbital BOW/PDW modulations.
 
-\begin{figure*}
-  \includegraphics[width=0.48\textwidth]{figures/phases/phase5_U5_ni.png}
-  \hfill
-  \includegraphics[width=0.48\textwidth]{figures/phases/phase5_U5_A_bond.png}
 
-  \vspace{0.4em}
-  \centering
-  \includegraphics[width=0.48\textwidth]{figures/phases/phase5_U5_B_bond.png}
-  \caption{Phase V (strong-coupling CDW phase) represented by $U=5$. Top row: orbital-resolved occupations and the $A$-sector \texttt{AdagA} diagnostic. Bottom: the $B$-sector \texttt{BdagB} diagnostic. The data support an $ABC$ CDW regime with additional $A$-sector bond-order structure.}
-  \label{fig:phase5}
-\end{figure*}
+\begin{figure}[t]
+ \centering
+ \includegraphics[width=\columnwidth]{figures/phaseicdw2.png}
+ \caption{
+ Density, bond, pairing, and entanglement diagnostics of the
+ second ICDW regime .
+ (a) Orbital occupations $n_\alpha(i)$; the inset magnifies
+ the unscaled $B$-orbital occupation over the full chain,
+ with unit-cell position $i$ on its horizontal axis.
+ (b) Normal bond expectation values
+ $\langle c^\dagger_{i\alpha}c_{i+1,\alpha}\rangle$.
+ (c) Pair expectation values
+ $\langle c_{i\alpha}c_{i+1,\alpha}\rangle$.
+ (d) Entanglement entropy at unit-cell cuts $\ell$, with
+ $L=N/3=80$. 
+ giving $c_{\mathrm{eff}}=1.037$. 
+ }
+ \label{fig:phase4}
+\end{figure}
 
-These five representative panels should be read together with the broader interaction scan discussed elsewhere in the manuscript. In particular, the average occupations as functions of $U$ remain the strongest global evidence for interaction-driven orbital reconstruction, while the phase-resolved figures above supply the local real-space interpretation of that reconstruction.
 
-\section{Discussion}
-\label{sec:discussion}
+\subsection{Phase IV: second ICDW phase}
 
-The present data support three claims with high confidence. First, the bulk-averaged occupations show a strong and systematic orbital redistribution under repulsion, with the central orbital moving toward half filling and therefore emerging as the dominant low-energy channel. Second, the combination of phase-resolved entanglement, density, correlation, and bond data strongly disfavors a single direct transition between weak-coupling topology and strong-coupling CDW order. Third, the weak-coupling regime remains qualitatively consistent with the two-length-scale Majorana picture inherited from the noninteracting flat-band model, even though the interpretation becomes more intricate once intermediate-coupling density reconstruction sets in.
+The fourth regime is represented by $U=1.50$ and $N=240$.
+The density profiles in (Fig.~\ref{fig:phase4}(a)) retain pronounced
+period-two components on the $A$ and $C$ orbitals.
+Defining the bulk staggered amplitude as
+$m_{O,\alpha}=|\overline{O}_{\alpha,\mathrm{even}}
+-\overline{O}_{\alpha,\mathrm{odd}}|/2$, , we find $m_{n,A}=0.2875$ and
+$m_{n,C}=0.2970$. The strong density staggering thus
+remains concentrated on $A$ and $C$, while the $B$ channel
+develops a distinct, weaker density response.
 
-The five-phase organization is therefore useful not because it replaces the broader scan, but because it gives that scan a physically resolved interpretation. Phase I is topological. Phase II is an $ABC$ ICDW regime with additional $A$-sector IBOW and IPDW signatures. Phase III is a mixed state in which $AC$ behave as a charge-ordered background while the $B$ channel remains topological and simultaneously supports bond-order and PDW-like structure. Phase IV is a second incommensurate window in which the $B$ channel is better described as ICDW plus PDW. Phase V is the strong-coupling $ABC$ CDW state with residual $A$-sector bond structure.
+The bond and pair expectation values show that the $B$-orbital
+modulations persist (Figs.~\ref{fig:phase4}(b) and (c)).
+For $B_\alpha(i)=\langle c^\dagger_{i\alpha}c_{i+1,\alpha}\rangle$
+and $P_\alpha(i)=\langle c_{i\alpha}c_{i+1,\alpha}\rangle$,
+the staggered amplitudes are $m_{B,B}=5.88\times10^{-2}$
+and $m_{P,B}=8.41\times10^{-5}$.
+Their counterparts on $A$ and $C$ are at most
+$1.8\times10^{-4}$ and $1.4\times10^{-6}$, respectively.
+These data support predominantly $B$-orbital BOW and PDW
+modulations coexisting with the $AC$-CDW background.
 
-Several aspects remain provisional. Some phase labels, especially those involving PDW/IPDW language, are inferred from the broader project interpretation rather than from a dedicated pairing correlator included in the present figure set. Likewise, one panel in phase II uses the nearest available $B$-sector bond dataset rather than an exactly matching $U=0.15$ output. Those caveats do not change the main conclusion: the interacting Lieb-Kitaev chain is best understood as an orbitally differentiated flat-band system in which topology, incommensurability, and charge ordering are all reorganized by repulsion.
+The decisive distinction from the third regime is the recovery
+of logarithmic entanglement scaling (Fig.~\ref{fig:phase4}(d)),
+with a fit over $20\leq\ell\leq60$ yielding $c_{\mathrm{eff}}=1.037$ for $N=240$. In this regime, the spatially modulated $B$-orbital density
+is interpreted as an incommensurate charge-density-wave
+(ICDW) response, coexisting with commensurate CDW order
+on the $A$ and $C$ orbitals.  As shown above (Fig.~\ref{fig:phase2}(e)), increasing $U$ drives the average $B$-orbital
+occupation from a doped value toward half filling.
+Together with the evolution of the spatial profiles, this
+trend may suggest a sequence of commensurate--incommensurate
+(C--IC) transitions, reflecting competition between
+commensurate locking and a density modulation whose preferred
+wave vector evolves with the orbital occupation.
+Upon approaching half filling, commensurate locking becomes
+favored, and the $B$-orbital density develops a period-two
+CDW pattern. This interpretation relies on the density
+modulations as well as the occupation: the approach of
+$\overline{n}_B$ to $1/2$ alone does not establish the
+intermediate C--IC transitions.
 
-\section{Conclusion}
+
+
+\subsection{Phase V: strong-coupling CDW phase}
+
+The fifth regime is represented by $U=5.0$ and $N=240$.
+(Fig.~\ref{fig:phase5}(a)) shows pronounced period-two density
+modulations on all three orbitals. The bulk staggered amplitudes are $m_{n,A}=0.4875$,
+$m_{n,B}=0.4770$, and $m_{n,C}=0.4876$, where
+$m_{O,\alpha}=|\overline{O}_{\alpha,\mathrm{even}}
+-\overline{O}_{\alpha,\mathrm{odd}}|/2$ is evaluated over
+$21\leq i\leq60$.
+The $B$ orbital is nearly half filled,
+$\overline{n}_B=0.500006$, with occupations alternating between
+approximately $0.9770$ and $0.0230$.
+Its approach to half filling is thus accompanied by strong
+commensurate density ordering. The entanglement entropy is correspondingly small,
+saturating at approximately $0.062$ and $0.080$ for odd
+and even bulk cuts, respectively (Fig.~\ref{fig:phase5}(c)).
+This weak entanglement is consistent with a state close
+to a classical charge configuration and, together with
+the pronounced density staggering. These results support an $ABC$-CDW
+phase.
+
+
+\begin{figure}[t]
+ \centering
+ \includegraphics[width=\columnwidth]{figures/phasecdw2.png}
+ \caption{
+ Density, bond,  and entanglement diagnostics of the strong coupling CDW phase.
+ (a) Orbital occupations $n_\alpha(i)$.
+ (b) Bond expectation values
+ $\langle c^\dagger_{i\alpha}c_{i+1,\alpha}\rangle$.
+ Colors and symbols distinguish $A$, $B$, and $C$ in (a) and (b).
+ (c) Entanglement entropy at unit-cell cuts, with $L=N/3=80$.
+ }
+ \label{fig:phase5}
+\end{figure}
+
+The bond profiles reveal a predominantly $AC$-BOW component
+(Fig.~\ref{fig:phase5}(b)). For
+$B_\alpha(i)=\langle c^\dagger_{i\alpha}c_{i+1,\alpha}\rangle$,
+the staggered amplitudes on $A$ and $C$ are both approximately
+$2.12\times10^{-2}$, whereas the $B$-orbital amplitude is only
+$2.23\times10^{-6}$.
+The dominant bond modulation therefore shifts from $B$ in
+the fourth regime to $A$ and $C$ in the fifth regime.
+The pair expectation values also retain weak spatial
+modulations, with amplitudes
+$9.77\times10^{-7}$ and $1.30\times10^{-6}$ on $A$ and $C$.
+In this strong-coupling regime, the large intercell
+repulsion favors nearly classical charge configurations
+and suppresses pair fluctuations, making an independent
+PDW instability less likely.
+We therefore characterize this regime as an $ABC$-CDW state
+with predominantly $AC$ bond modulation, without assigning
+an additional PDW order.
+
+
+
+
+
+\section{Conclusion and Remarks}
 \label{sec:conclusion}
 
-We have reorganized the current DMRG results for the interacting Lieb-Kitaev chain into a PRB-style manuscript that combines a broad interaction-scan perspective with a five-phase real-space interpretation. The most robust global result remains the interaction-driven redistribution of the orbital occupations, particularly the tendency of the central $B$ orbital toward half filling as $U$ increases. The phase-resolved figures then show how this redistribution is expressed locally through topological correlations, ICDW structure, mixed intermediate order, and eventual strong-coupling CDW locking.
 
-The resulting physical picture is not a simple direct collapse from topological superconductivity to a trivial density-ordered state. Instead, the repulsive branch with finite pairing supports a sequence of distinct regimes in which the $A$, $B$, and $C$ orbitals play different roles. This is the central message of the revised manuscript and the organizing principle for the updated \texttt{work} project.
+We have investigated the interaction-driven evolution of
+the Lieb--Kitaev chain using orbital-resolved densities,
+bond and pairing expectation values, and entanglement
+entropy. The resulting five regimes reveal how quantum
+geometry, orbital charge redistribution, and commensurate
+ordering shape the physics of an interacting nearly
+flat-band system. Their distinction requires resolving
+the individual orbitals, whose density and bond responses
+can evolve differently under the same interaction.
 
-\begin{acknowledgments}
-This manuscript was prepared from the author's PPT, notes, and DMRG analysis outputs. Numerical calculations were carried out with ITensor~\cite{fishman2022}. The figure selection and project organization used the analysis directory dated 2026-05-24.
-\end{acknowledgments}
+In the first regime, the bulk density remains spatially
+uniform within each orbital, and the entanglement entropy
+saturates with a negligible logarithmic contribution.
+The single-particle correlations decay exponentially,
+with a fitted decay length close to $4\xi_{\mathrm{QM}}$
+near the noninteracting limit, where $\xi_{\mathrm{QM}}$
+is estimated from the underlying band geometry.
+This numerical agreement supports a quantum-geometric
+interpretation of the correlation length in the
+weakly interacting regime and connects the real-space
+correlations to the geometry of the nearly flat band.
 
-\bibliographystyle{apsrev4-2}
+Increasing the interaction produces a sequence of
+orbital-selective density reorganizations, accompanied
+by changes in entanglement scaling and bond modulation.
+Incommensurate density modulations first develop on all
+three orbitals in a critical regime compatible with
+$c_{\mathrm{eff}}\simeq1$. The $A$ and $C$ densities
+subsequently lock into period-two CDW patterns while
+the $B$ density becomes nearly uniform, accompanied
+by entropy saturation and predominantly $B$-orbital
+bond modulation. A renewed incommensurate response
+then appears on $B$ within the commensurate $AC$
+background, together with the recovery of logarithmic
+entanglement scaling. Finally, as the average $B$
+occupation approaches half filling, its density also
+locks into a period-two pattern, completing the
+$ABC$-CDW state. The small, saturated entropy in this
+strong-coupling regime supports a nearly classical
+charge configuration, while the dominant bond
+modulation shifts to $A$ and $C$. The residual pairing
+modulation remains weak and does not establish an
+independent PDW phase in the presence of explicit
+pairing. Together, these observations suggest a
+competition between commensurate locking and
+incommensurate density responses, with distinct
+orbitals participating at different interaction
+strengths.
+
+Future work should establish the thermodynamic
+transition boundaries through larger-system calculations,
+wave-vector scaling, and excitation-gap analysis.
+Pair-correlation and pairing-field studies could
+clarify the origin of the weak pairing response.
+Varying the residual bandwidth and orbital
+hybridization would further test how quantum geometry
+controls the correlation length and the subsequent
+sequence of orbital-selective ordering.
+
+The authors acknowledge helpful and insightful discussions with K. T. Law and Grant Z. X. Yang that greatly benefited this work.
+
+%\bibliographystyle{apsrev4-2}
 \bibliography{refs}
 
 \end{document}
