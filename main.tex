@@ -221,14 +221,6 @@ decaying components,
 \end{equation}
 
 
-\section{Numerical strategy}
-\label{sec:numerics}
-
-The interacting ground state is computed by finite-system DMRG with open boundary conditions using ITensor~\cite{fishman2022}. The three-orbital chain is mapped to a one-dimensional matrix-product-state sequence $(A_1,B_1,C_1,A_2,B_2,C_2,\dots,A_L,B_L,C_L)$. We choose the parameter $t=0.03$, $V=0.6$, $J=1$ and $\Delta=0.018$ and restrict the system to half filling for this spinless model. The source calculations emphasize careful sweep scheduling and convergence control, which is essential because the entanglement rises substantially in parts of the repulsive regime and because flat-band systems generally exhibit a large degree of degeneracy.
-
-The nontrivial decay modes in this model can be characterized by the superconducting coherence length, which is conventionally extracted from the pair correlation function and remains applicable in flat-band systems. Here we adopt an alternative approach based on the geometric character of the flat band. In this case, the relevant superconducting length scale is related to the quadratic spread of the Wannier states, which is governed by the bloch functions and can be directly accessed through single-particle correlation functions $\langle c^{\dagger}_i c_j\rangle$ , $\langle c_i c_j\rangle$. These quantities can be used to characterize the long-range collective decay modes, and after extrapolation to the thermodynamic limit, the extracted values are consistent with the theoretical predictions.
-
-
 \begin{figure}[t]
     \centering
     \includegraphics[width=0.9\columnwidth]{figures/Fig2.pdf}
@@ -252,12 +244,24 @@ The nontrivial decay modes in this model can be characterized by the superconduc
     \label{fig:2}
 \end{figure}
 
-We use the central charge to justify an ICDW phase. In one dimension, the ICDW phase is typically gapless and is described by a Luttinger liquid, so the entanglement entropy follows the conformal scaling form with a finite central charge, usually \(c=1\) for a single gapless charge mode. By contrast, a commensurate CDW phase is generally gapped, for which the entanglement entropy saturates at long distances and the effective central charge vanishes, \(c=0\). A fully gapped one-dimensional superconducting phase, including a gapped topological superconducting phase, has no gapless bulk degrees of freedom and therefore corresponds to an effective central charge \(c=0\). The central charge can be obtained from entanglement entropy with the Calabrese–Cardy formula at open boundary condition~\cite{pasqualecalabreseEntanglementEntropyQuantum2004}.
 
+\section{Numerical strategy}
+\label{sec:numerics}
 
-\begin{equation}
-S(\ell)=\frac{c}{6}\ln\left[\frac{2L}{\pi}\sin\left(\frac{\pi \ell}{L}\right)\right]+s_0.
-\end{equation}
+The interacting ground state is computed by finite-system DMRG with open boundary conditions using ITensor~\cite{fishman2022}. The three-orbital chain is mapped to a one-dimensional matrix-product-state sequence $(A_1,B_1,C_1,A_2,B_2,C_2,\dots,A_L,B_L,C_L)$. We choose the parameter $t=0.03$, $V=0.6$, $J=1$ and $\Delta=0.018$ and restrict the system to half filling for this spinless model. The source calculations emphasize careful sweep scheduling and convergence control, which is essential because the entanglement rises substantially in parts of the repulsive regime and because flat-band systems generally exhibit a large degree of degeneracy. Each parameter point
+is initialized independently from the empty-site
+product state and optimized through a prescribed
+sequence of 80 full sweeps. The maximum bond dimension
+is increased progressively through
+$20$, $40$, $80$, $160$, $320$, $640$, and $1280$,
+while the truncation cutoff is tightened from $10^{-4}$
+through $10^{-6}$ and $10^{-8}$.A density-matrix noise term is included during the initial optimization, with its coefficient gradually
+reduced from $10^{-5}$ to $10^{-10}$.A custom observer records the total energy and the
+von Neumann entanglement entropy after every full sweep .Convergence is assessed by requiring both the absolute
+change in the total energy and the maximum change in the
+entanglement entropy over all intercell cuts between the
+final two sweeps to be smaller than $10^{-7}$.
+
 
 \begin{table*}[t]
     \centering
@@ -317,6 +321,27 @@ S(\ell)=\frac{c}{6}\ln\left[\frac{2L}{\pi}\sin\left(\frac{\pi \ell}{L}\right)\ri
 \end{table*}
 
 
+The nontrivial decay modes in this model can be characterized by the superconducting coherence length, which is conventionally extracted from the pair correlation function and remains applicable in flat-band systems. Here we adopt an alternative approach based on the geometric character of the flat band. In this case, the relevant superconducting length scale is related to the quadratic spread of the Wannier states, which is governed by the bloch functions and can be directly accessed through single-particle correlation functions $\langle c^{\dagger}_i c_j\rangle$ , $\langle c_i c_j\rangle$. (Fig.~\ref{fig:2}) shows the two exponential decay modes of the correlation function, with a decay length nearly
+independent of the reference position in the bulk,
+together with the finite-size dependence of the decay
+lengths extracted from correlations anchored at either
+end of the chain. These quantities can be used to characterize the long-range collective decay modes, and after extrapolation to the thermodynamic limit, the extracted values are consistent with the theoretical predictions.
+
+
+
+
+
+
+We use the central charge to justify an ICDW phase. In one dimension, the ICDW phase is typically gapless and is described by a Luttinger liquid, so the entanglement entropy follows the conformal scaling form with a finite central charge, usually \(c=1\) for a single gapless charge mode. By contrast, a commensurate CDW phase is generally gapped, for which the entanglement entropy saturates at long distances and the effective central charge vanishes, \(c=0\). A fully gapped one-dimensional superconducting phase, including a gapped topological superconducting phase, has no gapless bulk degrees of freedom and therefore corresponds to an effective central charge \(c=0\). The central charge can be obtained from entanglement entropy with the Calabrese–Cardy formula at open boundary condition~\cite{pasqualecalabreseEntanglementEntropyQuantum2004}.
+
+
+\begin{equation}
+S(\ell)=\frac{c}{6}\ln\left[\frac{2L}{\pi}\sin\left(\frac{\pi \ell}{L}\right)\right]+s_0.
+\end{equation}
+
+
+
+
 \section{Results}
 \label{sec:results}
 
@@ -343,13 +368,29 @@ thus undergoes a distinctive sequence of modulation,
 flattening, and renewed modulation before joining
 the final commensurate state.
 
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=\columnwidth]{figures/phasetc.pdf}
+    \caption{
+    Weak-interaction TC regime for 
+    (a)--(c) Orbital-resolved density, normal bond expectation value,
+    and pairing expectation value at $U=0.05$ and $N=240$.
+    Colors and symbols identify $\alpha=A,B,C$, and $i$ counts unit cells.
+    (d) Entanglement entropy for $N=120,240$, with $L=N/3$.
+    (e) Magnitude of the normal correlation
+    $\langle c^\dagger_{iB}c_{i+r,B}\rangle$ at $i=40$, $N=240$,
+    and $U=0,0.02,0.05,0.08$; $r$ is measured in unit cells.
+    }
+    \label{fig:TC_summary}
+\end{figure}
+
 
 \subsection{Regime I: topological regime}
 
 The weak-interaction regime labelled TC ($0\leq U\lesssim0.1$)
 is characterized by spatially uniform bulk observables and a
 noncritical entanglement structure.
-(Fig~\ref{fig:TC_summary}(a)--(c)) show representative results at
+(Fig.~\ref{fig:TC_summary}(a)--(c)) show representative results at
 $U=0.05$ for $N=240$.
 The normal bond expectation values
 $\langle c^\dagger_{i\alpha}c_{i+1,\alpha}\rangle$ and pairing
@@ -384,19 +425,26 @@ We therefore identify phase I as the topological reference state from which the 
 
 \begin{figure}[t]
     \centering
-    \includegraphics[width=\columnwidth]{figures/phasetc.pdf}
+    \includegraphics[width=\columnwidth]{figures/phaseicdw1.pdf}
     \caption{
-    Weak-interaction TC regime for 
-    (a)--(c) Orbital-resolved density, normal bond expectation value,
-    and pairing expectation value at $U=0.05$ and $N=240$.
-    Colors and symbols identify $\alpha=A,B,C$, and $i$ counts unit cells.
-    (d) Entanglement entropy for $N=120,240$, with $L=N/3$.
-    (e) Magnitude of the normal correlation
-    $\langle c^\dagger_{iB}c_{i+r,B}\rangle$ at $i=40$, $N=240$,
-    and $U=0,0.02,0.05,0.08$; $r$ is measured in unit cells.
+    Density, bond, pairing, and entanglement signatures of the
+    ICDW regime.
+    (a)--(c) $n_\alpha(i)$,
+    $\langle c^\dagger_{i\alpha}c_{i+1,\alpha}\rangle$, and
+    $\langle c_{i\alpha}c_{i+1,\alpha}\rangle$, respectively,
+    at $U=0.24$ and $N=240$. Colors and symbols distinguish
+    $\alpha=A,B,C$; $i$ labels unit cells.
+    (d) Entanglement entropy at $U=0.24$ for $N=240$,
+    with $L=N/3=80$. The fitted coefficient is $c_{\mathrm{eff}}=1.021$;
+    (e) Mean $B$-orbital occupation in the central half of the chain,
+    $\overline{n}_B=(2/L)\sum_{i=L/4+1}^{3L/4}n_B(i)$,
+    over $0\leq U\leq3$ for $N=120,240$.
     }
-    \label{fig:TC_summary}
+    \label{fig:phase2}
 \end{figure}
+
+
+
 
 \subsection{Regime II: ICDW regime }
 
@@ -429,25 +477,6 @@ Defining a bulk average over the central half of the chain, $\overline{n}_B=\fra
 \sum_{i=L/4+1}^{3L/4}\langle c^\dagger_{iB}c_{iB}\rangle$ we plot its evolution over the interval $0\leq U\leq3$, for $N=120$ and $240$
 (Fig.~\ref{fig:phase2}(e)).
 
-\begin{figure}[t]
-    \centering
-    \includegraphics[width=\columnwidth]{figures/phaseicdw1.pdf}
-    \caption{
-    Density, bond, pairing, and entanglement signatures of the
-    ICDW regime.
-    (a)--(c) $n_\alpha(i)$,
-    $\langle c^\dagger_{i\alpha}c_{i+1,\alpha}\rangle$, and
-    $\langle c_{i\alpha}c_{i+1,\alpha}\rangle$, respectively,
-    at $U=0.24$ and $N=240$. Colors and symbols distinguish
-    $\alpha=A,B,C$; $i$ labels unit cells.
-    (d) Entanglement entropy at $U=0.24$ for $N=240$,
-    with $L=N/3=80$. The fitted coefficient is $c_{\mathrm{eff}}=1.021$;
-    (e) Mean $B$-orbital occupation in the central half of the chain,
-    $\overline{n}_B=(2/L)\sum_{i=L/4+1}^{3L/4}n_B(i)$,
-    over $0\leq U\leq3$ for $N=120,240$.
-    }
-    \label{fig:phase2}
-\end{figure}
 
 
 
@@ -460,23 +489,67 @@ relative to half filling. Together with the estimate
 $c_{\mathrm{eff}}\simeq1$, this motivates a phenomenological
 interpretation in terms of a doped Luttinger liquid.
 In a single-component spinless Luttinger description, the
-low-energy excitations are collective density fluctuations,
-and the oscillatory part of the bulk connected density
-correlation has the form ~\cite{Voit1995}
+low-energy excitations are collective density fluctuations, known as the Friedel oscillations~\cite{Voit1995}. To quantify the spatial decay of this density modulation,
+we fit the $B$-orbital occupation for different $U$ to the
+finite-chain Friedel form ~\cite{eggerFriedelOscillationsLuttinger1996}
 \begin{equation}
- C_B^{\mathrm{osc}}(r)\sim
- A_B\frac{\cos(Qr)}{r^{2K}},
- \qquad Q=2k_F^{\mathrm{eff}},
- \label{eq:phase2_icdw_ll}
+\begin{split}
+\langle n_{iB}\rangle
+&=n_{\mathrm{bg}}(i)
++\frac{A\cos(Qi+\phi)}{[d(i)]^{K_{\mathrm{eff}}}},\\
+d(i)&=\frac{L+1}{\pi}
+\sin\!\left(\frac{\pi i}{L+1}\right),
+\end{split}
+\label{eq:friedel_fit}
 \end{equation}
-where $K$ is the Luttinger parameter and the unit-cell spacing
-is set to unity. Doping the effective low-energy band away
+
+where $K_{\mathrm{eff}}$ is the Luttinger parameter , $L=N/3$ is the number of unit cells and
+$n_{\mathrm{bg}}(i)$ includes a constant background. Doping the effective low-energy band away
 from a commensurate filling shifts $Q$ away from its
 commensurate value and introduces a spatial mismatch in the
 corresponding umklapp term. When the density field remains
 unlocked, this mismatch suppresses commensurate pinning at
 long distances, allowing an incommensurate density response
 in a gapless liquid~\cite{Giamarchi1997}.
+For $N=240$, and $U=0.24$ fitting over $11\leq i\leq70$ yields
+$K_{\mathrm{eff}}=0.751$ (Fig.~\ref{fig:phase2_K_scan}) .
+Excluding between eight and fifteen unit cells at
+each boundary gives $K_{\mathrm{eff}}\simeq0.73$--$0.80$.
+The decrease of $K_{\mathrm{eff}}$ with increasing $U$
+indicates a progressively slower spatial decay of the
+density-oscillation envelope within the Friedel ansatz.
+This trend is consistent with an enhanced tendency
+toward density ordering as repulsion increases.
+These results are compatible with a Friedel oscillation
+description with an effective exponent below unity.
+
+
+
+
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=\columnwidth]
+    {figures/phase2_friedel_K.pdf}
+    \caption{
+    Fitting the Luttinger parameter from the Friedel analysis Eq.(13) of the
+    $B$-orbital density in the incommunsurate regime,
+    for $N=240$ sites ($L=80$ unit cells) and different fitting windows.
+    (a) Effective exponent $K_{\mathrm{eff}}$ and
+    (b) coefficient of determination $R^2$ versus $U$.
+    Fits retain $s+1\leq i\leq L-s$, with
+    $s=8,10,12,15$ corresponding to the windows
+    $9$--$72$, $11$--$70$, $13$--$68$, and $16$--$65$,
+    respectively. Identical windows are used at every $U$.
+    }
+    \label{fig:phase2_K_scan}
+\end{figure}
+
+
+
+
+
+
 
 \begin{figure}[t]
  \centering
@@ -597,7 +670,40 @@ modulations as well as the occupation: the approach of
 $\overline{n}_B$ to $1/2$ alone does not establish the
 intermediate C--IC transitions.
 
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=\columnwidth]
+    {figures/phase4_friedel_K_scan.pdf}
+    \caption{
+    Fitting the Luttinger parameter from the Friedel analysis Eq.(13) of the
+    $B$-orbital density in the second incommunsurate regime,
+    for $N=240$ sites ($L=80$ unit cells) and different fitting windows.
+    (a) Effective exponent $K_{\mathrm{eff}}$ and
+    (b) coefficient of determination $R^2$ versus $U$.
+    Fits retain $s+1\leq i\leq L-s$, with
+    $s=8,10,12,15$ corresponding to the windows
+    $9$--$72$, $11$--$70$, $13$--$68$, and $16$--$65$,
+    respectively. Identical windows are used at every $U$.
+    }
+    \label{fig:phase4_K_scan}
+\end{figure}
 
+We apply the same Friedel analysis to the $B$-orbital
+density in the fourth regime
+(Fig.~\ref{fig:phase4_K_scan}).
+Compared with the second regime, the extracted exponent
+exhibits stronger window dependence over much of the
+interaction range. At $U=1.5$, the primary window
+$11\leq i\leq70$ yields $K_{\mathrm{eff}}=0.683$,
+whereas the four windows give values between $0.616$
+and $1.239$, indicating that a unique exponent is
+not reliably determined. More consistent fits emerge
+for $1.9\leq U\leq2.4$, where the primary-window
+exponent decreases from $0.977$ to $0.624$ and
+$R^2$ exceeds $0.99$. Within the fitted ansatz,
+this decrease indicates a more slowly decaying
+density-oscillation envelope and is compatible with
+an enhanced tendency toward density ordering.
 
 \subsection{Regime V: strong-coupling CDW regime}
 
